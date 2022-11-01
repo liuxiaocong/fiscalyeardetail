@@ -1,0 +1,87 @@
+@import '~antd/es/style/variable.less';
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+.colorWeak {
+  filter: invert(80%);
+}
+
+.ant-layout {
+  min-height: 100vh;
+}
+.ant-pro-sider.ant-layout-sider.ant-pro-sider-fixed {
+  left: unset;
+}
+
+.ant-page-header {
+  background-color: @background-primary;
+}
+
+canvas {
+  display: block;
+}
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+@media (max-width: @screen-xs) {
+  .ant-table {
+    width: 100%;
+    overflow-x: auto;
+    &-thead > tr,
+    &-tbody > tr {
+      > th,
+      > td {
+        white-space: pre;
+        > span {
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+// Custom colors.
+@background-primary: #ffffff;
+@background-secondary: #fafafb;
+@background-tertiary: #e9ecf0;
+@content-primary: #000000;
+@content-secondary: #415367;
+@content-tertiary: #8390a2;
+@content-state-disabled: #c8ced6;
+@border-opaque: #e7ebf0;
+
+// Custom less variables.
+@border-radius-base: 4px;
+@border-radius-sm: 2px;
+@border-radius-lg: 8px;
+
+.row-dragging {
+  z-index: @zindex-modal + 1;
+  background: @background-secondary;
+  border: 1px solid @border-opaque;
+}
+
+.row-dragging td {
+  padding: 12px 16px;
+}
+
+.row-dragging .drag-visible {
+  visibility: visible;
+}
+
+.row-dragging .drag-invisible {
+  visibility: hidden;
+}
