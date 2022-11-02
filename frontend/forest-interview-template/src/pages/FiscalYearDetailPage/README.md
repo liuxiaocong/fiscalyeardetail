@@ -19,3 +19,5 @@
 - Use webpack alis to optimize `import` style, currently i put all relative code in `src/pages/FiscalYearDetailPage` for easy to review code
 
 - Use `React.memo`, `React.useCallback` to optimize render
+
+- Use `useRequest` hook instead of set loading

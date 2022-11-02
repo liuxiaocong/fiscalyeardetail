@@ -54,6 +54,11 @@ export default [
         name: '2022',
         component: './FiscalYearDetailPage',
       },
+      {
+        path: '/fiscal-year/2021',
+        name: '2021',
+        component: './FiscalYearDetailPage',
+      },
     ],
   },
   {
