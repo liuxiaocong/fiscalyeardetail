@@ -4,6 +4,8 @@ export default {
   'menu.home': 'Home',
   'menu.admin': 'Admin',
   'menu.admin.sub-page': 'Sub-Page',
+  'menu.fiscalYear': 'Fiscal Year',
+  'menu.fiscalYear.2022': '2022',
   'menu.login': 'Login',
   'menu.register': 'Register',
   'menu.register-result': 'Register Result',

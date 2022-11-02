@@ -45,7 +45,7 @@ export default [
   },
   {
     path: '/fiscal-year',
-    name: 'Fiscal Year',
+    name: 'fiscalYear',
     icon: 'crown',
     access: 'canAdmin',
     routes: [
