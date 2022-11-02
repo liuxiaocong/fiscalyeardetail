@@ -36,8 +36,8 @@ const FormTypeTable: React.FC<{
     },
     {
       title: 'Company',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'company',
+      key: 'company',
       render: (name: string, record: Company) => {
         return (
           <FormTypeLink
