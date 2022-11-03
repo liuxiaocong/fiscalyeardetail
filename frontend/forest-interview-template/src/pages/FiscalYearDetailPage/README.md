@@ -1,10 +1,12 @@
 ### Project run
 
-- 1 Open <http://erp.localhost:8000/app/fiscal-year> and create fiscal-year 2022
+- 1 Environment(optional): `node: v16.14.0` `yarn: 1.22.10`
 
-- 2 Visit <http://localhost:8006/fiscal-year/2022>, without `step 1` will show `fiscal year ${year} not created`
+- 2 Open <http://erp.localhost:8000/app/fiscal-year> and create fiscal-year 2022
 
-### Functions
+- 3 Visit <http://localhost:8006/fiscal-year/2022>, without `step 2` will show `fiscal year ${year} not created`
+
+### Requirements compeleted
 
 - Form Render, support `doctype: 'Check' | 'Date' | 'Data | 'Table'`
 
@@ -15,16 +17,6 @@
   - Actions: `Add row`, `Delete rows`
 
 - Can click `submit` to view result after update
-
-### Notice
-
-- Install jest if want to run test, (only added simple unit test)
-
-```shell
-yarn add jest ts-jest @types/jest jest-environment-jsdom
-```
-
-- Special handle for `autoname`, will set field to be hidden if match
 
 ### Things i didn't do
 
@@ -45,6 +37,16 @@ yarn add jest ts-jest @types/jest jest-environment-jsdom
 - Use recursion for trace `DocField`, only check `fieldtype === 'Table``, then add props to support render
 
 - For table only support edit with `fieldtype === 'Link'`
+
+### Others
+
+- Install jest if want to run test, (only added simple unit test)
+
+```shell
+yarn add jest ts-jest @types/jest jest-environment-jsdom
+```
+
+- Special handle for `autoname`, will set field to be hidden if match
 
 ### Relative link
 
