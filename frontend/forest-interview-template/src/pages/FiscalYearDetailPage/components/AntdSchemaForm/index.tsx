@@ -1,7 +1,9 @@
 import React from 'react';
+import { Modal } from 'antd';
 import type { ProFormColumnsType, FormInstance } from '@ant-design/pro-components';
 import type { StoreValue } from 'rc-field-form/lib/interface';
-import { CustomizeFormType } from '@/pages/FiscalYearDetailPage/types/doc';
+
+import { CustomizeFormType } from '@/pages/FiscalYearDetailPage/types/antd';
 import { getCustomizeFormType } from '@/pages/FiscalYearDetailPage/utils/formType';
 import { BetaSchemaForm, ProProvider } from '@ant-design/pro-components';
 
@@ -21,13 +23,16 @@ const AntdSchemaForm = <T,>(props: Props<T>) => {
       formRef.current?.setFieldsValue(initialValues);
     }
   }, [initialValues]);
-
+  console.log({
+    columns,
+  });
   return (
     <ProProvider.Provider
       value={{
         ...values,
         valueTypeMap: {
           [CustomizeFormType.TABLE]: getCustomizeFormType(CustomizeFormType.TABLE),
+          [CustomizeFormType.LINK]: getCustomizeFormType(CustomizeFormType.LINK),
         },
       }}
     >
@@ -36,6 +41,11 @@ const AntdSchemaForm = <T,>(props: Props<T>) => {
         formRef={formRef}
         columns={columns}
         title={title || 'Form'}
+        onFinish={async (values) => {
+          Modal.confirm({
+            content: JSON.stringify(values),
+          });
+        }}
       />
     </ProProvider.Provider>
   );

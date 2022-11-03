@@ -5,6 +5,7 @@ export default {
   'menu.admin': 'Admin',
   'menu.admin.sub-page': 'Sub-Page',
   'menu.fiscalYear': 'Fiscal Year',
+  'menu.fiscalYear.2021': '2021',
   'menu.fiscalYear.2022': '2022',
   'menu.login': 'Login',
   'menu.register': 'Register',

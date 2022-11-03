@@ -1,30 +1,46 @@
+import React from 'react';
 import type { StoreValue } from 'rc-field-form/lib/interface';
-import AntdSchemaForm from '@/pages/FiscalYearDetailPage/components/AntdSchemaForm';
+import type { ProFormColumnsType } from '@ant-design/pro-components';
+import type { DocType } from '@/services/frappe/doctype';
 
+import { KnownDocType } from '@/services/frappe/doctype';
 import { transformDocTypesToAntdFormColumns } from '@/pages/FiscalYearDetailPage/utils/antdForm';
-
-type SimpleDocField = {
-  year: string;
-  disabled: number;
-  is_short_year: number;
-  year_start_date: string;
-  year_end_date: string;
-  auto_created: number;
-};
+import { getAutoNameFromDocType } from '@/pages/FiscalYearDetailPage/utils/doctype';
+import AntdSchemaForm from '@/pages/FiscalYearDetailPage/components/AntdSchemaForm';
 
 type Props = {
   initialValues?: Record<string, StoreValue>;
+  docType?: DocType; // use for render form info
+  optionTypes?: DocType[]; // docType maybe need some info from optionTypes, connect with property - 'options'
+  hideTitle?: boolean;
 };
 
-const DoctypeForm = (props: Props) => {
-  const { initialValues } = props;
-  const antdFormColumns = transformDocTypesToAntdFormColumns<SimpleDocField>({} as any);
+const DoctypeForm = <T,>(props: Props) => {
+  const { initialValues, docType, optionTypes, hideTitle = false } = props;
+  const [antdFormColumns, setAntdFormColumns] = React.useState<ProFormColumnsType<T>[]>([]);
+
+  React.useEffect(() => {
+    if (docType) {
+      const formColumns = transformDocTypesToAntdFormColumns({
+        fields: docType?.fields || [],
+        optionTypes,
+      });
+      setAntdFormColumns(formColumns);
+    }
+  }, [docType, optionTypes]);
+
+  if (docType && docType?.doctype !== KnownDocType.CORE_DOCTYPE) {
+    //render 'DocType' only
+    return <div>Un valid doctype : {docType?.doctype}</div>;
+  }
+
+  const title = getAutoNameFromDocType(docType, initialValues);
+
   return (
-    <AntdSchemaForm<SimpleDocField>
-      title=""
-      columns={antdFormColumns}
-      initialValues={initialValues}
-    />
+    <div>
+      {!hideTitle && <h2>{title}</h2>}
+      <AntdSchemaForm<T> title="" columns={antdFormColumns} initialValues={initialValues} />
+    </div>
   );
 };
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import type { SearchLink } from '@/services/frappe/model';
+
 import { Input, message, Spin, Button } from 'antd';
 import { searchLink } from '@/services/frappe/api/desk';
 import useDebounce from '@/pages/FiscalYearDetailPage/hooks/useDebounce';
@@ -44,6 +45,8 @@ const FormTypeLink: React.FC<{
   //use ref coz onblur will happen before click avaliable item
   const checkValIsValid = async () => {
     const latestVal = checkAfterFocusRef.current.val;
+    setIsFocus(false);
+    setSearchResult([]);
     if (!latestVal || !checkAfterFocusRef.current.needCheck) {
       return;
     }
@@ -52,8 +55,6 @@ const FormTypeLink: React.FC<{
       onChange?.(latestVal);
       return;
     }
-    setIsFocus(false);
-    setSearchResult([]);
     const checkValid = async () => {
       const results = await fetchSearchList(latestVal);
       const find = results.find((item) => item.value === latestVal);
@@ -76,23 +77,26 @@ const FormTypeLink: React.FC<{
     checkAfterFocusRef.current.needCheck = true;
     checkAfterFocusRef.current.val = e.target.value;
 
-    setTimeout(checkValIsValid, 500);
+    setTimeout(checkValIsValid, 400);
   };
 
   React.useEffect(() => {
+    if (!isFocus) {
+      return;
+    }
     const fetchData = async () => {
       const results = await fetchSearchList(debouncedVal);
       setSearchResult(results);
     };
     fetchData();
-  }, [debouncedVal]);
+  }, [debouncedVal, isFocus]);
 
   if (readonly) {
     return <span className={styles.valDisplay}>{value}</span>;
   }
 
   return (
-    <div>
+    <div className={styles.wrap}>
       <div>
         <Input
           onFocus={() => {
@@ -106,30 +110,32 @@ const FormTypeLink: React.FC<{
         />
       </div>
       {isFocus && (
-        <Spin spinning={loading}>
-          <ul className={styles.list}>
-            {searchResult.map((link: SearchLink) => {
-              return (
-                <li
-                  onClick={() => {
-                    setIsFocus(false);
-                    setVal(link.value);
-                    checkAfterFocusRef.current.needCheck = false;
-                    checkAfterFocusRef.current.val = link.value;
-                    onChange?.(link.value);
-                  }}
-                  className={styles.listItem}
-                  key={link.value}
-                >
-                  {link.value}
-                </li>
-              );
-            })}
-            <li key="create" className={`${styles.listItem} ${styles.listItemLink}`}>
-              <Button type="link">Create Company</Button>
-            </li>
-          </ul>
-        </Spin>
+        <div className={styles.result}>
+          <Spin spinning={loading}>
+            <ul className={styles.list}>
+              {searchResult.map((link: SearchLink) => {
+                return (
+                  <li
+                    onClick={() => {
+                      setIsFocus(false);
+                      setVal(link.value);
+                      checkAfterFocusRef.current.needCheck = false;
+                      checkAfterFocusRef.current.val = link.value;
+                      onChange?.(link.value);
+                    }}
+                    className={styles.listItem}
+                    key={link.value}
+                  >
+                    {link.value}
+                  </li>
+                );
+              })}
+              <li key="create" className={`${styles.listItem} ${styles.listItemLink}`}>
+                <Button type="link">Create Company</Button>
+              </li>
+            </ul>
+          </Spin>
+        </div>
       )}
     </div>
   );

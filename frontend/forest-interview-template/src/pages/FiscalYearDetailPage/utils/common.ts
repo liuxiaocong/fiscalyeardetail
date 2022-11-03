@@ -1,8 +1,10 @@
-export const getLastUrlPath = (): string => {
-  const pathName = window.location.pathname;
-  const lastUrlPath = pathName.substring(
-    pathName.lastIndexOf('/') + 1,
-    pathName.lastIndexOf('/') + 5,
-  );
-  return lastUrlPath;
+export const getLastUrlPath = (pathName: string): string => {
+  if (!pathName || !pathName.includes('/')) {
+    return pathName;
+  }
+  const lastQuestionMark = pathName.indexOf('?');
+  if (lastQuestionMark >= 0) {
+    return pathName.substring(pathName.lastIndexOf('/') + 1, lastQuestionMark);
+  }
+  return pathName.substring(pathName.lastIndexOf('/') + 1);
 };
