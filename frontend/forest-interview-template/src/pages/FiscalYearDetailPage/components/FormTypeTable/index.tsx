@@ -5,12 +5,10 @@ import type { ColumnsType, ColumnType } from 'antd/lib/table';
 import { Row, Col, Table, Button } from 'antd';
 import { SettingOutlined, EditOutlined } from '@ant-design/icons';
 
+import { ROW_ID } from '@/pages/FiscalYearDetailPage/constants/common';
+import type { TableData } from '@/pages/FiscalYearDetailPage/types/common';
 import FormTypeLink from '@/pages/FiscalYearDetailPage/components/FormTypeLink';
 import { CustomizeFormType } from '@/pages/FiscalYearDetailPage/types/antd';
-
-const ROW_ID = 'idx';
-
-type TableData = Record<string, any> & { [ROW_ID]: number };
 
 type Props = {
   value?: TableData[];

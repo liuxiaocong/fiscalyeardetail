@@ -1,6 +1,6 @@
 import { CustomizeFormType } from '@/pages/FiscalYearDetailPage/types/antd';
 import type { ProFieldFCRenderProps } from '@ant-design/pro-components';
-import type { Company } from '@/services/frappe/doctype';
+import type { TableData } from '@/pages/FiscalYearDetailPage/types/common';
 import FormTypeTable from '@/pages/FiscalYearDetailPage/components/FormTypeTable';
 import FormTypeLink from '@/pages/FiscalYearDetailPage/components/FormTypeLink';
 
@@ -12,11 +12,11 @@ export const getCustomizeFormType = (
 } => {
   if (type === CustomizeFormType.TABLE) {
     return {
-      render: (companys: Company[], props) => {
+      render: (tableDatas: TableData[], props) => {
         console.log({ props });
-        return <FormTypeTable value={companys} />;
+        return <FormTypeTable value={tableDatas} />;
       },
-      renderFormItem: (companys: Company[], props) => {
+      renderFormItem: (tableDatas: TableData[], props) => {
         console.log({ props });
         return <FormTypeTable {...props.fieldProps} />;
       },
