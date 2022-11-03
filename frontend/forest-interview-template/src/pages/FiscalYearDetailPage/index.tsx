@@ -7,7 +7,7 @@ import { Collapse, Spin } from 'antd';
 import { message } from 'antd';
 import { getDocType, getDoc } from '@/services/frappe/api/desk';
 import { getLastUrlPath } from './utils/common';
-import { getAutoNameFromDocType } from './utils/doctype';
+import { getAutoNameValueFromDocType } from './utils/docType';
 import styles from './index.less';
 import DoctypeForm from './components/DoctypeForm';
 import { typesResult, docData } from './testdata';
@@ -86,7 +86,7 @@ const Page = () => {
     );
   };
 
-  const pageTitle = getAutoNameFromDocType(fiscalYearDocType, initValues);
+  const pageTitle = getAutoNameValueFromDocType(fiscalYearDocType, initValues);
 
   if (showNotExist) {
     return <div className={styles.empty}>{`fiscal year ${docName} not created`}</div>;

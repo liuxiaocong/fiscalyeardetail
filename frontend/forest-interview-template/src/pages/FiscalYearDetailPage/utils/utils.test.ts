@@ -1,11 +1,11 @@
 import { DocType } from '@/services/frappe';
-import { getAutoNameFromDocType } from './doctype';
+import { getAutoNameValueFromDocType } from './docType';
 import { getLastUrlPath } from './common';
 
-describe(`Get auto name \`${getAutoNameFromDocType.name}\``, () => {
+describe(`Get auto name \`${getAutoNameValueFromDocType.name}\``, () => {
   it('without autoname property:', () => {
     const data = {};
-    const res = getAutoNameFromDocType(data as DocType, { name: 'Fiscal year' });
+    const res = getAutoNameValueFromDocType(data as DocType, { name: 'Fiscal year' });
     expect(res).toStrictEqual('');
   });
 
@@ -13,7 +13,7 @@ describe(`Get auto name \`${getAutoNameFromDocType.name}\``, () => {
     const data = {
       autoname: 'fields:year',
     };
-    const res = getAutoNameFromDocType(data as DocType, { name: 'Fiscal year' });
+    const res = getAutoNameValueFromDocType(data as DocType, { name: 'Fiscal year' });
     expect(res).toStrictEqual('');
   });
 
@@ -21,7 +21,7 @@ describe(`Get auto name \`${getAutoNameFromDocType.name}\``, () => {
     const data = {
       autoname: 'fields:name',
     };
-    const res = getAutoNameFromDocType(data as DocType, { name: 'Fiscal year' });
+    const res = getAutoNameValueFromDocType(data as DocType, { name: 'Fiscal year' });
     expect(res).toStrictEqual('Fiscal year');
   });
 });

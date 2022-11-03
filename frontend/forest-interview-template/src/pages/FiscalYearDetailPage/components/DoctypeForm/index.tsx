@@ -8,7 +8,7 @@ import {
   transformDocTypesToAntdFormColumns,
   hideFormColumnsByName,
 } from '@/pages/FiscalYearDetailPage/utils/antdForm';
-import { getAutoNameValueFromDocType } from '@/pages/FiscalYearDetailPage/utils/doctype';
+import { getAutoNameValueFromDocType } from '@/pages/FiscalYearDetailPage/utils/docType';
 import AntdSchemaForm from '@/pages/FiscalYearDetailPage/components/AntdSchemaForm';
 
 type Props = {
