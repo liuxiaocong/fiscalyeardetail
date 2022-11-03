@@ -86,46 +86,6 @@ const decorate: Record<string, decorateFun> = {
     };
   },
 };
-// {
-//   title: 'Year',
-//   readonly: false,
-//   dataIndex: 'year',
-//   valueType: 'text',
-// },
-// {
-//   title: 'Disabled',
-//   readonly: false,
-//   dataIndex: 'disabled',
-//   valueType: 'switch',
-// },
-// {
-//   title: 'Is short year',
-//   readonly: true,
-//   dataIndex: 'is_short_year',
-//   valueType: 'switch',
-//   fieldProps: {
-//     checkedChildren: <Checkbox checked />,
-//     unCheckedChildren: <Checkbox />,
-//   },
-// },
-// {
-//   title: 'Year Start Date',
-//   readonly: true,
-//   dataIndex: 'year_start_date',
-//   valueType: 'date',
-// },
-// {
-//   title: 'Year End Date',
-//   readonly: true,
-//   dataIndex: 'year_end_date',
-//   valueType: 'date',
-// },
-// {
-//   title: 'Companies',
-//   readonly: false,
-//   dataIndex: 'companies',
-//   valueType: 'Table',
-// },
 
 export const transformDocTypesToAntdFormColumns = (params: {
   fields?: DocField[];
@@ -133,44 +93,6 @@ export const transformDocTypesToAntdFormColumns = (params: {
 }): ProFormColumnsType[] => {
   const { fields, optionTypes } = params;
   const ret: ProFormColumnsType[] = [];
-  // return [
-  //   {
-  //     title: 'Year',
-  //     readonly: false,
-  //     dataIndex: 'year',
-  //     valueType: 'text',
-  //   },
-  //   {
-  //     title: 'Disabled',
-  //     readonly: true,
-  //     dataIndex: 'disabled',
-  //     valueType: 'switch',
-  //   },
-  //   {
-  //     title: 'Is short year',
-  //     readonly: true,
-  //     dataIndex: 'is_short_year',
-  //     valueType: 'switch',
-  //   },
-  //   {
-  //     title: 'Year Start Date',
-  //     readonly: true,
-  //     dataIndex: 'year_start_date',
-  //     valueType: 'date',
-  //   },
-  //   {
-  //     title: 'Year End Date',
-  //     readonly: true,
-  //     dataIndex: 'year_end_date',
-  //     valueType: 'date',
-  //   },
-  //   {
-  //     title: 'Companies',
-  //     readonly: true,
-  //     dataIndex: 'companies',
-  //     valueType: 'Table',
-  //   },
-  // ];
 
   const traceFields = (fieldItems: DocField[], parent?: DocField): void => {
     // current not need using parent for recursion
@@ -207,6 +129,20 @@ export const transformDocTypesToAntdFormColumns = (params: {
   };
 
   traceFields(fields || []);
-  console.log(JSON.stringify(ret));
   return ret;
+};
+
+export const hideFormColumnsByName = (
+  formColumns: ProFormColumnsType[],
+  name: string,
+): ProFormColumnsType[] => {
+  return formColumns.map((formColumn: ProFormColumnsType) => {
+    if (formColumn.dataIndex === name) {
+      return {
+        ...formColumn,
+        hideInForm: true,
+      };
+    }
+    return formColumn;
+  });
 };

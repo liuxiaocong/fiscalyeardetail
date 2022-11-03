@@ -4,8 +4,11 @@ import type { ProFormColumnsType } from '@ant-design/pro-components';
 import type { DocType } from '@/services/frappe/doctype';
 
 import { KnownDocType } from '@/services/frappe/doctype';
-import { transformDocTypesToAntdFormColumns } from '@/pages/FiscalYearDetailPage/utils/antdForm';
-import { getAutoNameFromDocType } from '@/pages/FiscalYearDetailPage/utils/doctype';
+import {
+  transformDocTypesToAntdFormColumns,
+  hideFormColumnsByName,
+} from '@/pages/FiscalYearDetailPage/utils/antdForm';
+import { getAutoNameValueFromDocType } from '@/pages/FiscalYearDetailPage/utils/doctype';
 import AntdSchemaForm from '@/pages/FiscalYearDetailPage/components/AntdSchemaForm';
 
 type Props = {
@@ -21,10 +24,20 @@ const DoctypeForm = <T,>(props: Props) => {
 
   React.useEffect(() => {
     if (docType) {
-      const formColumns = transformDocTypesToAntdFormColumns({
+      let formColumns = transformDocTypesToAntdFormColumns({
         fields: docType?.fields || [],
         optionTypes,
       });
+
+      const autoName = docType.autoname;
+      if (autoName) {
+        const autoNameArr = autoName.split(':');
+        if (autoNameArr.length === 2) {
+          const targetField = autoNameArr[1];
+          formColumns = hideFormColumnsByName(formColumns, targetField);
+        }
+      }
+
       setAntdFormColumns(formColumns);
     }
   }, [docType, optionTypes]);
@@ -34,7 +47,7 @@ const DoctypeForm = <T,>(props: Props) => {
     return <div>Un valid doctype : {docType?.doctype}</div>;
   }
 
-  const title = getAutoNameFromDocType(docType, initialValues);
+  const title = getAutoNameValueFromDocType(docType, initialValues);
 
   return (
     <div>

@@ -2,13 +2,19 @@
 
 - 1 Open <http://erp.localhost:8000/app/fiscal-year> and create fiscal-year 2022
 
-- 2 Visit <http://localhost:8006/fiscal-year/2022>, without step will show `fiscal year ${year} not created`
+- 2 Visit <http://localhost:8006/fiscal-year/2022>, without `step 1` will show `fiscal year ${year} not created`
 
-- 3 After edit some data, can click `submit` to view the result
+### Functions
 
-### Relative link
+- Form Render, support `doctype: 'Check' | 'Date' | 'Data | 'Table'`
 
-- [bench](https://frappeframework.com/docs/v14/user/en/bench)
+- Edit form data, support `doctype: 'Check' | 'Date' | 'Data'`
+
+- Edit form table data
+  - Column update support: `doctype: 'Link'`
+  - Actions: `Add row`, `Delete rows`
+
+- Can click `submit` to view result after update
 
 ### Notice
 
@@ -39,3 +45,7 @@ yarn add jest ts-jest @types/jest jest-environment-jsdom
 - Use recursion for trace `DocField`, only check `fieldtype === 'Table``, then add props to support render
 
 - For table only support edit with `fieldtype === 'Link'`
+
+### Relative link
+
+- [bench](https://frappeframework.com/docs/v14/user/en/bench)
