@@ -23,14 +23,20 @@ const FormTypeTable = (props: Props) => {
   const { value, onChange, readonly, formColumns } = props;
   const [tableValues, setTableValues] = React.useState<TableData[]>(value || []);
   const [currentEditIdx, setCurrentEditIdx] = React.useState<undefined | number>(undefined);
-  const [selectedRowKeys, setSelectedRowKeys] = React.useState<string[]>([]);
+  const [selectedRowKeys, setSelectedRowKeys] = React.useState<number[]>([]);
+  const showDelete = selectedRowKeys && selectedRowKeys.length > 0;
   const rowSelection = {
     onChange: (selectedKeys: React.Key[]) => {
       console.log({
         selectedKeys,
       });
-      setSelectedRowKeys(selectedKeys as string[]);
+      setSelectedRowKeys(selectedKeys as number[]);
     },
+  };
+
+  const updateValues = (data: TableData[]) => {
+    setTableValues(data);
+    onChange?.(data);
   };
 
   const onColumnDataChange = (key: string, val: any, record: TableData) => {
@@ -39,8 +45,7 @@ const FormTypeTable = (props: Props) => {
     if (target) {
       target[key] = val;
     }
-    setTableValues(newData);
-    onChange?.(newData);
+    updateValues(newData);
   };
 
   const addRow = () => {
@@ -56,9 +61,14 @@ const FormTypeTable = (props: Props) => {
         idx: maxIdx + 1,
       },
     ];
-    setTableValues(newData);
     setCurrentEditIdx(maxIdx + 1);
-    onChange?.(newData);
+    updateValues(newData);
+  };
+
+  const deleteRows = () => {
+    const newData = [...tableValues].filter((item) => !selectedRowKeys.includes(item[ROW_ID]));
+    setSelectedRowKeys([]);
+    updateValues(newData);
   };
 
   const buildWithFormColumns = (): ColumnsType<TableData> => {
@@ -162,9 +172,16 @@ const FormTypeTable = (props: Props) => {
         rowSelection={rowSelection}
       />
       {!readonly && (
-        <Button size="small" onClick={addRow}>
-          Add row
-        </Button>
+        <div>
+          <Button size="small" onClick={addRow}>
+            Add row
+          </Button>
+          {showDelete && (
+            <Button style={{ marginLeft: 12 }} size="small" danger onClick={deleteRows}>
+              Delete rows
+            </Button>
+          )}
+        </div>
       )}
     </div>
   );

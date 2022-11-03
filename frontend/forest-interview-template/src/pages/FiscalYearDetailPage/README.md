@@ -4,6 +4,8 @@
 
 - 2 Visit <http://localhost:8006/fiscal-year/2022>, without step will show `fiscal year ${year} not created`
 
+- 3 After edit some data, can click `submit` to view the result
+
 ### Relative link
 
 - [bench](https://frappeframework.com/docs/v14/user/en/bench)
