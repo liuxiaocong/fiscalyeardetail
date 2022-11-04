@@ -18,6 +18,7 @@ const FormTypeLink: React.FC<{
   const [searchResult, setSearchResult] = React.useState<SearchLink[]>([]);
 
   // click list and onblur is happen almost same time, default -> blur : [true], click list: [true, false]
+  // couldn't just bind ref to inuput https://github.com/ant-design/ant-design/issues/34425
   const checkAfterFocusRef = React.useRef({
     val: '',
     needCheck: false,

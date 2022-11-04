@@ -13,12 +13,10 @@ export const getCustomizeFormType = (
   if (type === CustomizeFormType.TABLE) {
     return {
       render: (tableDatas: TableData[], props) => {
-        console.log({ props });
-        return <FormTypeTable value={tableDatas} />;
+        return <FormTypeTable {...props.fieldProps} value={tableDatas} readonly />;
       },
       renderFormItem: (tableDatas: TableData[], props) => {
-        console.log({ props });
-        return <FormTypeTable {...props.fieldProps} />;
+        return <FormTypeTable {...props.fieldProps} value={tableDatas} />;
       },
     };
   }
@@ -29,7 +27,7 @@ export const getCustomizeFormType = (
         return <FormTypeLink value={val} readonly={true} />;
       },
       renderFormItem: (val: string, props) => {
-        return <FormTypeLink value={val} {...props.fieldProps} />;
+        return <FormTypeLink value={val} {...props.fieldProps} readonly={false} />;
       },
     };
   }

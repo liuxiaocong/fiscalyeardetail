@@ -1,4 +1,4 @@
-import { DocType } from '@/services/frappe';
+import type { DocType } from '@/services/frappe';
 import { getAutoNameValueFromDocType } from './docType';
 import { getLastUrlPath } from './common';
 

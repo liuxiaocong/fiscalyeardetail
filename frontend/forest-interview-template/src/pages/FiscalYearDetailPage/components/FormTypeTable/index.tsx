@@ -23,15 +23,19 @@ const FormTypeTable = (props: Props) => {
   const [currentEditIdx, setCurrentEditIdx] = React.useState<undefined | number>(undefined);
   const [selectedRowKeys, setSelectedRowKeys] = React.useState<number[]>([]);
   const showDelete = selectedRowKeys && selectedRowKeys.length > 0;
-  const rowSelection = {
-    onChange: (selectedKeys: React.Key[]) => {
-      console.log({
-        selectedKeys,
-      });
-      setSelectedRowKeys(selectedKeys as number[]);
-    },
-  };
+  const rowSelection = readonly
+    ? undefined
+    : {
+        onChange: (selectedKeys: React.Key[]) => {
+          setSelectedRowKeys(selectedKeys as number[]);
+        },
+      };
 
+  React.useEffect(() => {
+    if (value) {
+      setTableValues(value);
+    }
+  }, [value]);
   const updateValues = (data: TableData[]) => {
     setTableValues(data);
     onChange?.(data);
@@ -136,19 +140,21 @@ const FormTypeTable = (props: Props) => {
     });
   }
 
-  displayColumns.push({
-    title: <SettingOutlined />,
-    key: 'action',
-    width: '250px',
-    render: () => (
-      <Row>
-        <Col style={{ marginRight: 20 }}>
-          <EditOutlined />
-        </Col>
-        <Col>Edit</Col>
-      </Row>
-    ),
-  });
+  if (!readonly) {
+    displayColumns.push({
+      title: <SettingOutlined />,
+      key: 'action',
+      width: '250px',
+      render: () => (
+        <Row>
+          <Col style={{ marginRight: 20 }}>
+            <EditOutlined />
+          </Col>
+          <Col>Edit</Col>
+        </Row>
+      ),
+    });
+  }
 
   return (
     <div>

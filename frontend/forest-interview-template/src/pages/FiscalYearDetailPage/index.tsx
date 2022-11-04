@@ -2,15 +2,14 @@ import React from 'react';
 import type { DocType, Company } from '@/services/frappe/doctype';
 import type { StoreValue } from 'rc-field-form/lib/interface';
 
+import { getDocType, getDoc } from '@/services/frappe/api/desk';
 import { KnownDocType } from '@/services/frappe/doctype';
 import { Collapse, Spin } from 'antd';
 import { message } from 'antd';
-import { getDocType, getDoc } from '@/services/frappe/api/desk';
 import { getLastUrlPath } from './utils/common';
 import { getAutoNameValueFromDocType } from './utils/docType';
-import styles from './index.less';
 import DoctypeForm from './components/DoctypeForm';
-import { typesResult, docData } from './testdata';
+import styles from './index.less';
 
 type SimpleDocField = {
   year: string;
@@ -41,10 +40,10 @@ const Page = () => {
     setLoading(true);
     const fetchData = async () => {
       try {
-        // const typesResult = await getDocType({
-        //   doctype: KnownDocType.ACCOUNTS_FISCAL_YEAR,
-        //   with_parent: true,
-        // });
+        const typesResult = await getDocType({
+          doctype: KnownDocType.ACCOUNTS_FISCAL_YEAR,
+          with_parent: true,
+        });
         const types = typesResult?.docs || [];
         const fiscalYearType = types?.find(
           (docType: DocType) => docType.name === KnownDocType.ACCOUNTS_FISCAL_YEAR,
@@ -53,7 +52,7 @@ const Page = () => {
         setFiscalYearDocType(fiscalYearType);
         setDocTypes(types);
 
-        //const docData = await getDoc({ doctype: KnownDocType.ACCOUNTS_FISCAL_YEAR, name: docName });
+        const docData = await getDoc({ doctype: KnownDocType.ACCOUNTS_FISCAL_YEAR, name: docName });
         const initInfo = docData?.docs?.[0];
         if (!initInfo) {
           setShowNotExist(true);

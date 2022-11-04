@@ -1,5 +1,6 @@
 import type { ProFormColumnsType, ProFieldValueType } from '@ant-design/pro-components';
 import type { DocType, DocField, DocFieldType } from '@/services/frappe/doctype';
+import { Switch } from 'antd';
 import { CustomizeFormType } from '@/pages/FiscalYearDetailPage/types/antd';
 
 declare module '@ant-design/pro-utils' {
@@ -35,16 +36,24 @@ const map: Partial<Record<DocFieldType, ProFieldValueType>> = {
 
 const decorate: Record<string, decorateFun> = {
   // not sure whether need this decorate or using switch
-  // [AntdFormType.SWITCH]: (data: ProFormColumnsType) => {
-  //   return {
-  //     ...data,
-  //     readonly: true, //use filed props to control
-  //     fieldProps: {
-  //       checkedChildren: <Checkbox checked disabled={!!data.readonly} />,
-  //       unCheckedChildren: <Checkbox disabled={!!data.readonly} />,
-  //     },
-  //   };
-  // },
+  // use switch to display if readonly instead of display text 'closed'
+  [AntdFormType.SWITCH]: (params) => {
+    const { docfield } = params;
+    const ret: ProFormColumnsType = {
+      title: docfield.label,
+      readonly: !!docfield.set_only_once,
+      dataIndex: docfield.fieldname,
+      valueType: AntdFormType.SWITCH,
+      hideInForm: !!docfield.hidden,
+    };
+    if (docfield.set_only_once) {
+      ret.fieldProps = {
+        checkedChildren: <Switch disabled checked />,
+        unCheckedChildren: <Switch disabled />,
+      };
+    }
+    return ret;
+  },
   [CustomizeFormType.TABLE]: (params) => {
     const { docfield, optionTypes } = params;
     const ret: ProFormColumnsType = {
@@ -57,7 +66,6 @@ const decorate: Record<string, decorateFun> = {
     const extraKey = docfield.options;
     if (extraKey) {
       const targetDocTypes = optionTypes?.find((doctype: DocType) => doctype.name === extraKey);
-      console.log({ targetDocTypes });
       if (targetDocTypes && targetDocTypes.fields) {
         const formColumns = targetDocTypes.fields
           .map((fieldType: DocField) => {
@@ -81,9 +89,7 @@ const decorate: Record<string, decorateFun> = {
         };
       }
     }
-    return {
-      ...ret,
-    };
+    return ret;
   },
 };
 
@@ -106,12 +112,12 @@ export const transformDocTypesToAntdFormColumns = (params: {
         const valueType = map[currentField.fieldtype] || currentField.fieldtype;
         if (!allSupportField.includes(valueType)) {
           console.error(`${valueType} is not support`);
-          break;
+          continue;
         }
 
         if (decorate[valueType]) {
           ret.push(decorate[valueType]({ docfield: currentField, optionTypes: optionTypes }));
-          return;
+          continue;
         }
 
         // default transform

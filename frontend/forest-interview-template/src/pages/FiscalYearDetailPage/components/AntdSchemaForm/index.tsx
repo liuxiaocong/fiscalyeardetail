@@ -23,9 +23,7 @@ const AntdSchemaForm = <T,>(props: Props<T>) => {
       formRef.current?.setFieldsValue(initialValues);
     }
   }, [initialValues]);
-  console.log({
-    columns,
-  });
+
   return (
     <ProProvider.Provider
       value={{
@@ -41,9 +39,9 @@ const AntdSchemaForm = <T,>(props: Props<T>) => {
         formRef={formRef}
         columns={columns}
         title={title || 'Form'}
-        onFinish={async (values) => {
+        onFinish={async (result) => {
           Modal.confirm({
-            content: JSON.stringify(values),
+            content: JSON.stringify(result),
           });
         }}
       />
